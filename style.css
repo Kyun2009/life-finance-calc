@@ -511,6 +511,10 @@ img {
   transform: translateX(-50%) translateY(0);
 }
 
+.toast.auto {
+  background: #2a6f5a;
+}
+
 .toast.show.shake {
   animation: shake 0.35s ease;
 }

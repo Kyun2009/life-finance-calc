@@ -558,10 +558,12 @@ const attachAutoCalc = () => {
     if (!toast) return;
     toast.textContent = message;
     toast.classList.remove('fail');
+    toast.classList.add('auto');
     toast.classList.add('show');
     window.clearTimeout(toastTimer);
     toastTimer = window.setTimeout(() => {
       toast.classList.remove('show');
+      toast.classList.remove('auto');
     }, 1200);
   };
 
