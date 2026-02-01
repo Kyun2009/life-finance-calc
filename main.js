@@ -205,6 +205,7 @@ const attachCalculatorHandlers = () => {
                   pointRadius: 2,
                   pointHoverRadius: 4,
                   stack: 'balance',
+                  yAxisID: 'yBalance',
                 },
                 {
                   label: '월 원금',
@@ -225,6 +226,7 @@ const attachCalculatorHandlers = () => {
                   fill: true,
                   pointRadius: 0,
                   stack: 'paid',
+                  yAxisID: 'yPaid',
                 },
               ],
             },
@@ -246,8 +248,9 @@ const attachCalculatorHandlers = () => {
                 },
               },
               scales: {
-                y: {
+                yPaid: {
                   stacked: true,
+                  position: 'left',
                   ticks: {
                     callback(value) {
                       const numeric = Number(value);
@@ -263,6 +266,28 @@ const attachCalculatorHandlers = () => {
                   title: {
                     display: true,
                     text: '금액(원)',
+                  },
+                },
+                yBalance: {
+                  position: 'right',
+                  grid: {
+                    drawOnChartArea: false,
+                  },
+                  ticks: {
+                    callback(value) {
+                      const numeric = Number(value);
+                      if (numeric >= 100000000) {
+                        return `${(numeric / 100000000).toFixed(1)}억`;
+                      }
+                      if (numeric >= 10000) {
+                        return `${(numeric / 10000).toFixed(0)}만`;
+                      }
+                      return `${numeric.toLocaleString('ko-KR')}원`;
+                    },
+                  },
+                  title: {
+                    display: true,
+                    text: '잔액(원)',
                   },
                 },
                 x: {
