@@ -340,6 +340,17 @@ img {
   margin-bottom: 24px;
 }
 
+.blog-cta {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.blog-cta .btn {
+  padding: 10px 16px;
+  font-size: 0.95rem;
+}
+
 .blog-list h3 {
   margin-top: 0;
 }
