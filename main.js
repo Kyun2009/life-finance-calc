@@ -215,6 +215,8 @@ const calculators = {
 };
 
 const attachCalculatorHandlers = () => {
+  const forms = Array.from(document.querySelectorAll('[data-calculator]'));
+
   document.querySelectorAll('[data-calculator]').forEach((form) => {
     form.addEventListener('submit', (event) => {
       event.preventDefault();
@@ -369,6 +371,8 @@ const attachCalculatorHandlers = () => {
           params.set(`${type}_${field.name}`, field.value);
         }
       });
+      params.set('rateUnit', getUnitSettings().rateUnit);
+      params.set('amountUnit', getUnitSettings().amountUnit);
       const cardId = form.closest('.card')?.id;
       const nextUrl = new URL(window.location.href);
       nextUrl.search = params.toString();
@@ -386,6 +390,10 @@ const restoreCalculatorValues = () => {
 
   const params = new URLSearchParams(window.location.search);
   const hash = window.location.hash.replace('#', '');
+  const rateParam = params.get('rateUnit');
+  const amountParam = params.get('amountUnit');
+  if (rateParam) localStorage.setItem('rateUnit', rateParam);
+  if (amountParam) localStorage.setItem('amountUnit', amountParam);
 
   forms.forEach((form) => {
     const type = form.dataset.calculator;
@@ -632,6 +640,12 @@ const attachUnitToggles = () => {
   const amountSelect = document.querySelector('[data-amount-unit]');
   let currentAmountUnit = localStorage.getItem('amountUnit') || 'krw';
   let currentRateUnit = localStorage.getItem('rateUnit') || 'annual';
+  const forms = Array.from(document.querySelectorAll('[data-calculator]'));
+  const recalcAll = () => {
+    forms.forEach((form) => {
+      form.dispatchEvent(new Event('submit', { cancelable: true }));
+    });
+  };
   if (rateSelect) {
     rateSelect.value = currentRateUnit;
     rateSelect.addEventListener('change', () => {
@@ -649,6 +663,7 @@ const attachUnitToggles = () => {
             input.value = (Math.round(converted * 100) / 100).toString();
           });
         currentRateUnit = nextUnit;
+        recalcAll();
       }
       localStorage.setItem('rateUnit', nextUnit);
     });
@@ -674,6 +689,7 @@ const attachUnitToggles = () => {
             }
           });
         currentAmountUnit = nextUnit;
+        recalcAll();
       }
       localStorage.setItem('amountUnit', nextUnit);
     });
