@@ -396,6 +396,8 @@ img {
   font-size: 0.85rem;
   color: var(--muted);
   line-height: 1.6;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 .calculator {
