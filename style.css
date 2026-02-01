@@ -477,9 +477,10 @@ img {
   gap: 8px;
   width: max-content;
   max-width: min(92vw, 520px);
-  white-space: nowrap;
+  white-space: normal;
+  line-height: 1.5;
+  text-align: center;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .toast.show {
