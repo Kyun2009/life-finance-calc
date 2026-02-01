@@ -703,12 +703,20 @@ const attachAutoCalc = () => {
           if (document.activeElement === input) return;
           input.dispatchEvent(new Event('blur'));
         });
-      }, 350);
+      }, 200);
     };
 
     form.querySelectorAll('input[name], select[name], textarea[name]').forEach((field) => {
-      field.addEventListener('input', trigger);
-      field.addEventListener('change', trigger);
+      field.addEventListener('blur', trigger);
+      if (field.tagName === 'SELECT') {
+        field.addEventListener('change', trigger);
+      }
+      field.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+          event.preventDefault();
+          trigger();
+        }
+      });
     });
   });
 };
