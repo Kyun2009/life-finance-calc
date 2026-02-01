@@ -348,6 +348,15 @@ img {
   margin-top: 12px;
 }
 
+.calculator.schedule {
+  gap: 12px;
+}
+
+.calculator.schedule .grid[data-schedule-summary],
+.calculator.schedule .table-wrap {
+  margin-top: 8px;
+}
+
 .card {
   background: var(--card);
   border: 1px solid var(--border);
