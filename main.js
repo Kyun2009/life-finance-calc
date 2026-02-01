@@ -710,11 +710,6 @@ const attachAutoCalc = () => {
       field.addEventListener('blur', trigger);
       if (field.tagName === 'SELECT') {
         field.addEventListener('change', trigger);
-      } else {
-        field.addEventListener('input', (event) => {
-          if (event.isComposing) return;
-          trigger();
-        });
       }
       field.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
