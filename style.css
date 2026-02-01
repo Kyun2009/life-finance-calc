@@ -178,6 +178,8 @@ img {
   border-color: transparent;
   background: rgba(22, 50, 79, 0.08);
   color: var(--accent);
+  position: relative;
+  overflow: hidden;
 }
 
 .btn.tag::before {
@@ -186,6 +188,29 @@ img {
   height: 10px;
   border-radius: 50%;
   background: currentColor;
+}
+
+.btn.tag::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: -1;
+}
+
+.btn.tag:hover {
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.btn.tag:hover::after {
+  opacity: 1;
+}
+
+.btn.tag:hover::before {
+  background: #fff;
 }
 
 .btn.tag.interest { color: #2a6f5a; }
