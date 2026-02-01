@@ -325,7 +325,7 @@ img {
 }
 
 .grid[data-schedule-summary] {
-  margin-top: 16px;
+  margin-top: 12px;
 }
 
 .grid[data-schedule-summary] .card {
@@ -338,6 +338,14 @@ img {
   border: none;
   background: transparent;
   padding: 0;
+}
+
+.calculator .table-wrap {
+  margin-top: 12px;
+}
+
+.calculator .table-wrap + .table-wrap {
+  margin-top: 12px;
 }
 
 .card {
