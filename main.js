@@ -13,18 +13,48 @@ const updateActiveNav = () => {
   });
 };
 
+const getUnitSettings = () => {
+  const rateUnit = localStorage.getItem('rateUnit') || 'annual';
+  const amountUnit = localStorage.getItem('amountUnit') || 'krw';
+  return { rateUnit, amountUnit };
+};
+
+const moneyFields = new Set([
+  'principal',
+  'loanPrincipal',
+  'monthly',
+  'amount',
+  'contribution',
+  'base',
+]);
+
+const getAmountMultiplier = (amountUnit) => (amountUnit === 'thousand' ? 1000 : 1);
+
+const getRateMultiplier = (rateUnit) => (rateUnit === 'monthly' ? 12 : 1);
+
+const readValue = (form, name, amountUnit) => {
+  const value = Number(form.querySelector(`[name="${name}"]`).value);
+  if (moneyFields.has(name)) {
+    return value * getAmountMultiplier(amountUnit);
+  }
+  return value;
+};
+
 const calculators = {
   interest(form) {
-    const principal = Number(form.querySelector('[name="principal"]').value);
-    const rate = Number(form.querySelector('[name="rate"]').value) / 100;
+    const { rateUnit, amountUnit } = getUnitSettings();
+    const principal = readValue(form, 'principal', amountUnit);
+    const rate = (Number(form.querySelector('[name="rate"]').value) * getRateMultiplier(rateUnit)) / 100;
     const months = Number(form.querySelector('[name="months"]').value);
     const interest = principal * rate * (months / 12);
     const total = principal + interest;
     return `예상 이자: ${formatCurrency(interest)}원 · 만기 금액: ${formatCurrency(total)}원`;
   },
   loan(form) {
-    const principal = Number(form.querySelector('[name="loanPrincipal"]').value);
-    const rate = Number(form.querySelector('[name="loanRate"]').value) / 100 / 12;
+    const { rateUnit, amountUnit } = getUnitSettings();
+    const principal = readValue(form, 'loanPrincipal', amountUnit);
+    const rate =
+      (Number(form.querySelector('[name="loanRate"]').value) * getRateMultiplier(rateUnit)) / 100 / 12;
     const months = Number(form.querySelector('[name="loanMonths"]').value);
     if (rate === 0) {
       return `월 상환액: ${formatCurrency(principal / months)}원`;
@@ -33,8 +63,10 @@ const calculators = {
     return `월 상환액: ${formatCurrency(payment)}원`;
   },
   savings(form) {
-    const monthly = Number(form.querySelector('[name="monthly"]').value);
-    const rate = Number(form.querySelector('[name="savingsRate"]').value) / 100 / 12;
+    const { rateUnit, amountUnit } = getUnitSettings();
+    const monthly = readValue(form, 'monthly', amountUnit);
+    const rate =
+      (Number(form.querySelector('[name="savingsRate"]').value) * getRateMultiplier(rateUnit)) / 100 / 12;
     const months = Number(form.querySelector('[name="savingsMonths"]').value);
     if (rate === 0) {
       return `예상 만기 금액: ${formatCurrency(monthly * months)}원`;
@@ -43,13 +75,15 @@ const calculators = {
     return `예상 만기 금액: ${formatCurrency(futureValue)}원`;
   },
   percent(form) {
-    const base = Number(form.querySelector('[name="base"]').value);
+    const { amountUnit } = getUnitSettings();
+    const base = readValue(form, 'base', amountUnit);
     const percent = Number(form.querySelector('[name="percent"]').value);
     const result = base * (percent / 100);
     return `${base}의 ${percent}%는 ${formatCurrency(result)}입니다.`;
   },
   exchange(form) {
-    const amount = Number(form.querySelector('[name="amount"]').value);
+    const { amountUnit } = getUnitSettings();
+    const amount = readValue(form, 'amount', amountUnit);
     const rate = Number(form.querySelector('[name="rate"]').value);
     const direction = form.querySelector('[name="direction"]').value;
     if (rate === 0) {
@@ -60,9 +94,10 @@ const calculators = {
     return `환산 금액: ${formatCurrency(result)}${suffix}`;
   },
   compound(form) {
-    const principal = Number(form.querySelector('[name="principal"]').value);
-    const contribution = Number(form.querySelector('[name="contribution"]').value);
-    const annualRate = Number(form.querySelector('[name="rate"]').value) / 100;
+    const { rateUnit, amountUnit } = getUnitSettings();
+    const principal = readValue(form, 'principal', amountUnit);
+    const contribution = readValue(form, 'contribution', amountUnit);
+    const annualRate = (Number(form.querySelector('[name="rate"]').value) * getRateMultiplier(rateUnit)) / 100;
     const years = Number(form.querySelector('[name="years"]').value);
     const frequency = Number(form.querySelector('[name="frequency"]').value);
     const months = years * 12;
@@ -78,8 +113,9 @@ const calculators = {
     return `예상 자산: ${formatCurrency(futureValue)}원`;
   },
   loanSchedule(form) {
-    const principal = Number(form.querySelector('[name="principal"]').value);
-    const annualRate = Number(form.querySelector('[name="rate"]').value) / 100;
+    const { rateUnit, amountUnit } = getUnitSettings();
+    const principal = readValue(form, 'principal', amountUnit);
+    const annualRate = (Number(form.querySelector('[name="rate"]').value) * getRateMultiplier(rateUnit)) / 100;
     const months = Number(form.querySelector('[name="months"]').value);
     const method = form.querySelector('[name="method"]').value;
     const monthlyRate = annualRate / 12;
@@ -589,6 +625,23 @@ const attachAutoCalc = () => {
   });
 };
 
+const attachUnitToggles = () => {
+  const rateSelect = document.querySelector('[data-rate-unit]');
+  const amountSelect = document.querySelector('[data-amount-unit]');
+  if (rateSelect) {
+    rateSelect.value = localStorage.getItem('rateUnit') || 'annual';
+    rateSelect.addEventListener('change', () => {
+      localStorage.setItem('rateUnit', rateSelect.value);
+    });
+  }
+  if (amountSelect) {
+    amountSelect.value = localStorage.getItem('amountUnit') || 'krw';
+    amountSelect.addEventListener('change', () => {
+      localStorage.setItem('amountUnit', amountSelect.value);
+    });
+  }
+};
+
 const run = () => {
   updateActiveNav();
   attachCalculatorHandlers();
@@ -596,6 +649,7 @@ const run = () => {
   restoreCalculatorValues();
   attachResetHandler();
   attachAutoCalc();
+  attachUnitToggles();
 };
 
 if (document.readyState === 'loading') {
