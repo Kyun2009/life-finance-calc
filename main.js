@@ -681,6 +681,11 @@ const attachAutoCalc = () => {
       showAutoToast('자동 계산 중...');
       timer = window.setTimeout(() => {
         form.dispatchEvent(new Event('submit', { cancelable: true }));
+        form.querySelectorAll('input[name]').forEach((input) => {
+          if (!moneyFields.has(input.name)) return;
+          if (document.activeElement === input) return;
+          input.dispatchEvent(new Event('blur'));
+        });
       }, 350);
     };
 
