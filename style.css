@@ -450,6 +450,13 @@ img {
   display: grid;
   gap: 16px;
   margin-top: 10px;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.contact-title {
+  text-align: center;
 }
 
 .contact-form label {
@@ -475,7 +482,7 @@ img {
 }
 
 .contact-form .btn.primary {
-  align-self: flex-start;
+  align-self: center;
   padding: 12px 20px;
   border: none;
   box-shadow: var(--shadow);
