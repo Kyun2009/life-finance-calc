@@ -373,12 +373,32 @@ const attachResetHandler = () => {
   const confirmButton = document.querySelector('[data-reset-confirm]');
   if (!resetButton) return;
 
+  let lastFocused = null;
+
+  const getFocusable = () => {
+    if (!modal) return [];
+    return Array.from(
+      modal.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      )
+    ).filter((el) => !el.hasAttribute('disabled'));
+  };
+
   const closeModal = () => {
     if (modal) modal.classList.remove('show');
+    if (lastFocused) {
+      lastFocused.focus();
+      lastFocused = null;
+    }
   };
 
   const openModal = () => {
     if (modal) modal.classList.add('show');
+    lastFocused = document.activeElement;
+    const focusable = getFocusable();
+    if (focusable.length) {
+      focusable[0].focus();
+    }
   };
 
   const runReset = () => {
@@ -430,6 +450,20 @@ const attachResetHandler = () => {
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
       closeModal();
+      return;
+    }
+    if (event.key === 'Tab' && modal && modal.classList.contains('show')) {
+      const focusable = getFocusable();
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     }
   });
 };
