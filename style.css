@@ -527,11 +527,6 @@ img {
   padding: 20px;
 }
 
-.modal-backdrop.show {
-  opacity: 1;
-  pointer-events: auto;
-}
-
 .modal-card {
   background: var(--card);
   border: 1px solid var(--border);
@@ -539,6 +534,19 @@ img {
   padding: 24px;
   width: min(420px, 90vw);
   box-shadow: var(--shadow);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  transform: translateY(10px);
+  opacity: 0;
+}
+
+.modal-backdrop.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-backdrop.show .modal-card {
+  transform: translateY(0);
+  opacity: 1;
 }
 
 .modal-card h3 {
