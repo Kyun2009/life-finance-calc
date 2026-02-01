@@ -194,10 +194,12 @@ const attachCalculatorHandlers = () => {
                 {
                   label: '잔액 추이',
                   data: result.chart.data,
-                  borderColor: '#16324f',
-                  backgroundColor: 'rgba(22, 50, 79, 0.1)',
+                  borderColor: '#2a6f5a',
+                  backgroundColor: 'rgba(42, 111, 90, 0.12)',
                   tension: 0.3,
                   fill: true,
+                  pointRadius: 2,
+                  pointHoverRadius: 4,
                 },
               ],
             },
@@ -208,13 +210,38 @@ const attachCalculatorHandlers = () => {
                 legend: {
                   display: true,
                 },
+                tooltip: {
+                  callbacks: {
+                    label(context) {
+                      const value = Number(context.parsed.y || 0);
+                      return `잔액: ${value.toLocaleString('ko-KR')}원`;
+                    },
+                  },
+                },
               },
               scales: {
                 y: {
                   ticks: {
                     callback(value) {
-                      return Number(value).toLocaleString('ko-KR');
+                      const numeric = Number(value);
+                      if (numeric >= 100000000) {
+                        return `${(numeric / 100000000).toFixed(1)}억`;
+                      }
+                      if (numeric >= 10000) {
+                        return `${(numeric / 10000).toFixed(0)}만`;
+                      }
+                      return `${numeric.toLocaleString('ko-KR')}원`;
                     },
+                  },
+                  title: {
+                    display: true,
+                    text: '잔액(원)',
+                  },
+                },
+                x: {
+                  title: {
+                    display: true,
+                    text: '회차',
                   },
                 },
               },
