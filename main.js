@@ -545,12 +545,41 @@ const attachShareHandlers = () => {
   });
 };
 
+const attachAutoCalc = () => {
+  const toggle = document.querySelector('[data-auto-calc]');
+  if (!toggle) return;
+
+  const STORAGE_KEY = 'autoCalc';
+  toggle.checked = localStorage.getItem(STORAGE_KEY) === 'true';
+
+  toggle.addEventListener('change', () => {
+    localStorage.setItem(STORAGE_KEY, toggle.checked ? 'true' : 'false');
+  });
+
+  document.querySelectorAll('[data-calculator]').forEach((form) => {
+    let timer;
+    const trigger = () => {
+      if (!toggle.checked) return;
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        form.dispatchEvent(new Event('submit', { cancelable: true }));
+      }, 350);
+    };
+
+    form.querySelectorAll('input[name], select[name], textarea[name]').forEach((field) => {
+      field.addEventListener('input', trigger);
+      field.addEventListener('change', trigger);
+    });
+  });
+};
+
 const run = () => {
   updateActiveNav();
   attachCalculatorHandlers();
   attachShareHandlers();
   restoreCalculatorValues();
   attachResetHandler();
+  attachAutoCalc();
 };
 
 if (document.readyState === 'loading') {

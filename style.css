@@ -159,6 +159,25 @@ img {
   gap: 12px;
 }
 
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--accent);
+  background: rgba(22, 50, 79, 0.08);
+  border: 1px solid rgba(22, 50, 79, 0.12);
+  padding: 10px 14px;
+  border-radius: 999px;
+}
+
+.toggle input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--brand);
+}
+
 .btn {
   display: inline-flex;
   align-items: center;
