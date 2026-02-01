@@ -177,10 +177,26 @@ img {
   background: var(--brand);
   color: #fff;
   border: none;
+  position: relative;
 }
 
 .btn.share.done {
   background: #1f4d3f;
+}
+
+.btn.share::before {
+  content: 'LINK';
+  margin-right: 8px;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+}
+
+.btn.share.done::before {
+  content: 'OK';
+}
+
+.btn.share.fail::before {
+  content: 'ERR';
 }
 
 .btn.tag {

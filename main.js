@@ -363,6 +363,7 @@ const attachShareHandlers = () => {
           }, 2000);
         }
         button.classList.add('done');
+        button.classList.remove('fail');
         button.textContent = '복사 완료';
         window.setTimeout(() => {
           button.classList.remove('done');
@@ -375,9 +376,11 @@ const attachShareHandlers = () => {
             status.textContent = '';
           }, 2000);
         }
-        button.classList.add('done');
+        button.classList.add('fail');
+        button.classList.remove('done');
         button.textContent = '복사 실패';
         window.setTimeout(() => {
+          button.classList.remove('fail');
           button.classList.remove('done');
           button.textContent = originalLabel;
         }, 2000);
