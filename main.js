@@ -353,7 +353,6 @@ const attachShareHandlers = () => {
         url.hash = targetId;
       }
       const status = button.parentElement.querySelector('[data-share-status]');
-      const originalLabel = button.textContent;
       try {
         await copyText(url.toString());
         if (status) {
@@ -364,10 +363,8 @@ const attachShareHandlers = () => {
         }
         button.classList.add('done');
         button.classList.remove('fail');
-        button.textContent = '복사 완료';
         window.setTimeout(() => {
           button.classList.remove('done');
-          button.textContent = originalLabel;
         }, 2000);
       } catch (error) {
         if (status) {
@@ -378,11 +375,9 @@ const attachShareHandlers = () => {
         }
         button.classList.add('fail');
         button.classList.remove('done');
-        button.textContent = '복사 실패';
         window.setTimeout(() => {
           button.classList.remove('fail');
           button.classList.remove('done');
-          button.textContent = originalLabel;
         }, 2000);
       }
     });
