@@ -336,9 +336,13 @@ const attachShareHandlers = () => {
     toast.textContent = message;
     toast.classList.toggle('fail', isError);
     toast.classList.add('show');
+    if (isError) {
+      toast.classList.add('shake');
+    }
     window.clearTimeout(toastTimer);
     toastTimer = window.setTimeout(() => {
       toast.classList.remove('show');
+      toast.classList.remove('shake');
     }, 2000);
   };
 

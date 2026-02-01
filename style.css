@@ -472,6 +472,9 @@ img {
   transition: opacity 0.2s ease, transform 0.2s ease;
   z-index: 100;
   font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .toast.show {
@@ -479,8 +482,25 @@ img {
   transform: translateX(-50%) translateY(0);
 }
 
+.toast.show.shake {
+  animation: shake 0.35s ease;
+}
+
 .toast.fail {
   background: #8b2d2b;
+}
+
+.toast::before {
+  content: 'OK';
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.toast.fail::before {
+  content: 'ERR';
 }
 
 .fade-in {
@@ -498,6 +518,14 @@ img {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@keyframes shake {
+  0% { transform: translateX(-50%) translateY(0); }
+  25% { transform: translateX(calc(-50% - 6px)) translateY(0); }
+  50% { transform: translateX(calc(-50% + 6px)) translateY(0); }
+  75% { transform: translateX(calc(-50% - 4px)) translateY(0); }
+  100% { transform: translateX(-50%) translateY(0); }
 }
 
 @media (max-width: 720px) {
