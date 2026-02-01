@@ -1,14 +1,104 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hello World</title>
-  <link href='/style.css' rel='stylesheet'>
+  <title>라이프 파이낸스 계산기</title>
+  <link href="/style.css" rel="stylesheet" />
 </head>
-<body>
-  <h1>Hello, world!</h1>
-  <button onclick="console.log('hello');">Press me</button>
-  <script defer type="text/javascript" src="/main.js"></script>
+<body data-page="home">
+  <div class="site-shell">
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/index.html">
+          <strong>Life Finance Calc</strong>
+          <span>생활 재무 계산기 &amp; 가이드</span>
+        </a>
+        <nav class="site-nav">
+          <a href="/index.html" data-page="home">홈</a>
+          <a href="/calculators.html" data-page="calculators">계산기</a>
+          <a href="/blog.html" data-page="blog">블로그</a>
+          <a href="/about.html" data-page="about">About</a>
+          <a href="/privacy.html" data-page="privacy">Privacy</a>2ㅕ
+          <a href="/contact.html" data-page="contact">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero container">
+        <div class="fade-in">
+          <span class="badge">신뢰도 높은 계산기 허브</span>
+          <h1>매일 쓰는 돈 계산을<br />쉽고 정확하게.</h1>
+          <p>
+            생활비, 대출, 적금까지 필요한 계산을 한 곳에서. 간단한 설명과 함께
+            결과를 확인하고, 더 나은 금융 습관을 만드는 데 도움을 드립니다.
+          </p>
+          <div class="hero-actions">
+            <a class="btn primary" href="/calculators.html">계산기 바로가기</a>
+            <a class="btn" href="/blog.html">실전 금융 가이드</a>
+          </div>
+        </div>
+        <div class="hero-card fade-in fade-delay-1">
+          <h3>이번 주 인기 계산기</h3>
+          <p>월 상환액, 이자, 적금 만기까지 한 번에 확인하세요.</p>
+          <div class="grid">
+            <div class="card">
+              <h4>대출 계산기</h4>
+              <p>금리와 기간을 입력해 월 상환액을 바로 확인합니다.</p>
+            </div>
+            <div class="card">
+              <h4>이자 계산기</h4>
+              <p>원금과 기간을 입력하면 예상 이자를 계산합니다.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section container">
+        <h2 class="fade-in">사이트 구조 한눈에</h2>
+        <div class="grid">
+          <div class="card fade-in fade-delay-1">
+            <h3>계산기 4종</h3>
+            <p>이자, 대출, 적금, 퍼센트 계산기를 간단한 입력으로 제공합니다.</p>
+          </div>
+          <div class="card fade-in fade-delay-2">
+            <h3>금융 가이드</h3>
+            <p>현실적인 사례 중심의 글로 금융 지식과 의사결정을 돕습니다.</p>
+          </div>
+          <div class="card fade-in fade-delay-3">
+            <h3>신뢰 정보</h3>
+            <p>사이트 소개, 개인정보 처리방침, 문의 채널을 명확히 공개합니다.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section container">
+        <h2 class="fade-in">최근 업데이트</h2>
+        <div class="grid">
+          <div class="card fade-in fade-delay-1">
+            <h3>적금 만기 계산기</h3>
+            <p>매월 납입액과 금리를 입력하면 예상 만기 금액을 알려드립니다.</p>
+          </div>
+          <div class="card fade-in fade-delay-2">
+            <h3>대출 상환 전략</h3>
+            <p>고정/변동 금리의 차이를 설명하고, 상환 계획을 정리했습니다.</p>
+          </div>
+          <div class="card fade-in fade-delay-3">
+            <h3>퍼센트 계산기</h3>
+            <p>할인율, 수수료, 성장률을 빠르게 확인할 수 있습니다.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <span>© 2026 Life Finance Calc. All rights reserved.</span>
+        <span>문의: hello@lifefinancecalc.com</span>
+      </div>
+    </footer>
+  </div>
+  <script defer src="/main.js"></script>
 </body>
 </html>

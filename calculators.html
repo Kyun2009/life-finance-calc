@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>계산기 | 라이프 파이낸스 계산기</title>
+  <link href="/style.css" rel="stylesheet" />
+</head>
+<body data-page="calculators">
+  <div class="site-shell">
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/index.html">
+          <strong>Life Finance Calc</strong>
+          <span>생활 재무 계산기 &amp; 가이드</span>
+        </a>
+        <nav class="site-nav">
+          <a href="/index.html" data-page="home">홈</a>
+          <a href="/calculators.html" data-page="calculators">계산기</a>
+          <a href="/blog.html" data-page="blog">블로그</a>
+          <a href="/about.html" data-page="about">About</a>
+          <a href="/privacy.html" data-page="privacy">Privacy</a>
+          <a href="/contact.html" data-page="contact">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="section">
+        <h2 class="fade-in">계산기 카테고리</h2>
+        <p class="info-block fade-in fade-delay-1">
+          필요한 입력만 간단히 넣으면 결과를 바로 확인할 수 있습니다. 결과값은 참고용이며,
+          실제 금융 조건과는 다를 수 있습니다.
+        </p>
+      </section>
+
+      <section class="section">
+        <div class="grid">
+          <div class="card">
+            <h3>이자 계산기</h3>
+            <form class="calculator" data-calculator="interest">
+              <label>원금 (원)
+                <input name="principal" type="number" min="0" required />
+              </label>
+              <label>연 이자율 (%)
+                <input name="rate" type="number" min="0" step="0.01" required />
+              </label>
+              <label>기간 (개월)
+                <input name="months" type="number" min="1" required />
+              </label>
+              <button type="submit">계산하기</button>
+              <div class="result">예상 이자가 표시됩니다.</div>
+            </form>
+          </div>
+
+          <div class="card">
+            <h3>대출 상환 계산기</h3>
+            <form class="calculator" data-calculator="loan">
+              <label>대출 원금 (원)
+                <input name="loanPrincipal" type="number" min="0" required />
+              </label>
+              <label>연 이자율 (%)
+                <input name="loanRate" type="number" min="0" step="0.01" required />
+              </label>
+              <label>상환 기간 (개월)
+                <input name="loanMonths" type="number" min="1" required />
+              </label>
+              <button type="submit">계산하기</button>
+              <div class="result">월 상환액이 표시됩니다.</div>
+            </form>
+          </div>
+
+          <div class="card">
+            <h3>적금 만기 계산기</h3>
+            <form class="calculator" data-calculator="savings">
+              <label>월 납입액 (원)
+                <input name="monthly" type="number" min="0" required />
+              </label>
+              <label>연 이자율 (%)
+                <input name="savingsRate" type="number" min="0" step="0.01" required />
+              </label>
+              <label>기간 (개월)
+                <input name="savingsMonths" type="number" min="1" required />
+              </label>
+              <button type="submit">계산하기</button>
+              <div class="result">예상 만기 금액이 표시됩니다.</div>
+            </form>
+          </div>
+
+          <div class="card">
+            <h3>퍼센트 계산기</h3>
+            <form class="calculator" data-calculator="percent">
+              <label>기준 값
+                <input name="base" type="number" min="0" required />
+              </label>
+              <label>퍼센트 (%)
+                <input name="percent" type="number" min="0" step="0.01" required />
+              </label>
+              <button type="submit">계산하기</button>
+              <div class="result">계산 결과가 표시됩니다.</div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <span>© 2026 Life Finance Calc. All rights reserved.</span>
+        <span>문의: hello@lifefinancecalc.com</span>
+      </div>
+    </footer>
+  </div>
+  <script defer src="/main.js"></script>
+</body>
+</html>
