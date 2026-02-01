@@ -235,6 +235,16 @@
         <span>문의: hello@lifefinancecalc.com</span>
       </div>
     </footer>
+    <div class="modal-backdrop" data-reset-modal>
+      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="reset-title">
+        <h3 id="reset-title">입력값을 초기화할까요?</h3>
+        <p>현재 입력한 값과 계산 결과가 모두 초기화됩니다.</p>
+        <div class="modal-actions">
+          <button type="button" class="btn" data-reset-cancel>취소</button>
+          <button type="button" class="btn primary" data-reset-confirm>초기화</button>
+        </div>
+      </div>
+    </div>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>

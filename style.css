@@ -509,6 +509,50 @@ img {
   content: 'ERR';
 }
 
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 18, 22, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 120;
+  padding: 20px;
+}
+
+.modal-backdrop.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 24px;
+  width: min(420px, 90vw);
+  box-shadow: var(--shadow);
+}
+
+.modal-card h3 {
+  margin-top: 0;
+}
+
+.modal-card p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 18px;
+}
+
 .fade-in {
   opacity: 0;
   transform: translateY(16px);

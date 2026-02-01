@@ -368,9 +368,20 @@ const restoreCalculatorValues = () => {
 
 const attachResetHandler = () => {
   const resetButton = document.querySelector('[data-reset-params]');
+  const modal = document.querySelector('[data-reset-modal]');
+  const cancelButton = document.querySelector('[data-reset-cancel]');
+  const confirmButton = document.querySelector('[data-reset-confirm]');
   if (!resetButton) return;
 
-  resetButton.addEventListener('click', () => {
+  const closeModal = () => {
+    if (modal) modal.classList.remove('show');
+  };
+
+  const openModal = () => {
+    if (modal) modal.classList.add('show');
+  };
+
+  const runReset = () => {
     const url = new URL(window.location.href);
     url.search = '';
     window.history.replaceState({}, '', url);
@@ -397,6 +408,29 @@ const attachResetHandler = () => {
         chartTarget._chartInstance = null;
       }
     });
+  };
+
+  resetButton.addEventListener('click', openModal);
+  if (cancelButton) {
+    cancelButton.addEventListener('click', closeModal);
+  }
+  if (confirmButton) {
+    confirmButton.addEventListener('click', () => {
+      runReset();
+      closeModal();
+    });
+  }
+  if (modal) {
+    modal.addEventListener('click', (event) => {
+      if (event.target === modal) {
+        closeModal();
+      }
+    });
+  }
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeModal();
+    }
   });
 };
 
