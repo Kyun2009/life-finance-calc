@@ -216,6 +216,25 @@ const calculators = {
 
 const attachCalculatorHandlers = () => {
   const forms = Array.from(document.querySelectorAll('[data-calculator]'));
+  const fieldLabels = {
+    principal: '원금',
+    rate: '이자율',
+    months: '기간',
+    loanPrincipal: '대출 원금',
+    loanRate: '대출 이자율',
+    loanMonths: '상환 기간',
+    monthly: '월 납입액',
+    savingsRate: '적금 이자율',
+    savingsMonths: '적금 기간',
+    base: '기준 값',
+    percent: '퍼센트',
+    amount: '금액',
+    direction: '변환 방향',
+    contribution: '월 추가 납입',
+    years: '투자 기간',
+    frequency: '복리 주기',
+    method: '상환 방식',
+  };
 
   document.querySelectorAll('[data-calculator]').forEach((form) => {
     form.addEventListener('submit', (event) => {
@@ -226,7 +245,21 @@ const attachCalculatorHandlers = () => {
         const isValid = field.checkValidity();
         field.classList.toggle('invalid', !isValid);
         if (error) {
-          error.textContent = isValid ? '' : '필수 값을 올바르게 입력해 주세요.';
+          if (isValid) {
+            error.textContent = '';
+          } else {
+            const label = fieldLabels[field.name] || '값';
+            const { validity } = field;
+            if (validity.valueMissing) {
+              error.textContent = `${label}을(를) 입력해 주세요.`;
+            } else if (validity.rangeUnderflow && field.min) {
+              error.textContent = `${label}은(는) ${field.min} 이상이어야 합니다.`;
+            } else if (validity.stepMismatch) {
+              error.textContent = `${label} 형식을 확인해 주세요.`;
+            } else {
+              error.textContent = `${label}을(를) 올바르게 입력해 주세요.`;
+            }
+          }
         }
         if (!isValid) {
           hasError = true;
