@@ -628,6 +628,7 @@ const attachAutoCalc = () => {
 const attachUnitToggles = () => {
   const rateSelect = document.querySelector('[data-rate-unit]');
   const amountSelect = document.querySelector('[data-amount-unit]');
+  let currentAmountUnit = localStorage.getItem('amountUnit') || 'krw';
   if (rateSelect) {
     rateSelect.value = localStorage.getItem('rateUnit') || 'annual';
     rateSelect.addEventListener('change', () => {
@@ -635,9 +636,23 @@ const attachUnitToggles = () => {
     });
   }
   if (amountSelect) {
-    amountSelect.value = localStorage.getItem('amountUnit') || 'krw';
+    amountSelect.value = currentAmountUnit;
     amountSelect.addEventListener('change', () => {
-      localStorage.setItem('amountUnit', amountSelect.value);
+      const nextUnit = amountSelect.value;
+      if (nextUnit !== currentAmountUnit) {
+        const factor = nextUnit === 'thousand' ? 0.001 : 1000;
+        document
+          .querySelectorAll('[data-calculator] input[name]')
+          .forEach((input) => {
+            if (!moneyFields.has(input.name)) return;
+            const value = Number(input.value);
+            if (Number.isNaN(value) || input.value === '') return;
+            const converted = value * factor;
+            input.value = Number.isFinite(converted) ? converted : value;
+          });
+        currentAmountUnit = nextUnit;
+      }
+      localStorage.setItem('amountUnit', nextUnit);
     });
   }
 };
