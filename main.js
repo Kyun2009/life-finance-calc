@@ -245,7 +245,21 @@ const attachCalculatorHandlers = () => {
       let firstInvalid = null;
       form.querySelectorAll('input[name], select[name], textarea[name]').forEach((field) => {
         const error = form.querySelector(`[data-error="${field.name}"]`);
-        const isValid = field.checkValidity();
+        let isValid = field.checkValidity();
+        let reason = null;
+        if (moneyFields.has(field.name)) {
+          const numeric = parseNumber(field.value);
+          if (field.value === '') {
+            isValid = false;
+            reason = 'valueMissing';
+          } else if (!Number.isFinite(numeric)) {
+            isValid = false;
+            reason = 'badInput';
+          } else if (field.min && numeric < Number(field.min)) {
+            isValid = false;
+            reason = 'rangeUnderflow';
+          }
+        }
         field.classList.toggle('invalid', !isValid);
         if (error) {
           if (isValid) {
@@ -253,11 +267,14 @@ const attachCalculatorHandlers = () => {
           } else {
             const label = fieldLabels[field.name] || '값';
             const { validity } = field;
-            if (validity.valueMissing) {
+            const valueMissing = reason === 'valueMissing' || validity.valueMissing;
+            const rangeUnderflow = reason === 'rangeUnderflow' || validity.rangeUnderflow;
+            const stepMismatch = validity.stepMismatch;
+            if (valueMissing) {
               error.textContent = `${label}을(를) 입력해 주세요.`;
-            } else if (validity.rangeUnderflow && field.min) {
+            } else if (rangeUnderflow && field.min) {
               error.textContent = `${label}은(는) ${field.min} 이상이어야 합니다.`;
-            } else if (validity.stepMismatch) {
+            } else if (stepMismatch) {
               error.textContent = `${label} 형식을 확인해 주세요.`;
             } else {
               error.textContent = `${label}을(를) 올바르게 입력해 주세요.`;
