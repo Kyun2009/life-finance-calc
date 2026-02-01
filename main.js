@@ -121,6 +121,17 @@ const calculators = {
 
     const chartData = rows.map((row) => row.balance);
     const chartLabels = rows.map((row) => `${row.month}회차`);
+    let cumulativePrincipal = 0;
+    let cumulativeInterest = 0;
+    const cumulativePrincipalData = [];
+    const cumulativeInterestData = [];
+
+    rows.forEach((row) => {
+      cumulativePrincipal += row.principal;
+      cumulativeInterest += row.interest;
+      cumulativePrincipalData.push(cumulativePrincipal);
+      cumulativeInterestData.push(cumulativeInterest);
+    });
 
     const tableHtml = `
       <table class="schedule-table">
@@ -157,6 +168,8 @@ const calculators = {
       chart: {
         labels: chartLabels,
         data: chartData,
+        cumulativePrincipal: cumulativePrincipalData,
+        cumulativeInterest: cumulativeInterestData,
       },
     };
   },
@@ -201,6 +214,24 @@ const attachCalculatorHandlers = () => {
                   pointRadius: 2,
                   pointHoverRadius: 4,
                 },
+                {
+                  label: '누적 원금',
+                  data: result.chart.cumulativePrincipal,
+                  borderColor: '#e3b04b',
+                  backgroundColor: 'rgba(227, 176, 75, 0.18)',
+                  tension: 0.3,
+                  fill: true,
+                  pointRadius: 0,
+                },
+                {
+                  label: '누적 이자',
+                  data: result.chart.cumulativeInterest,
+                  borderColor: '#8b5e3b',
+                  backgroundColor: 'rgba(139, 94, 59, 0.14)',
+                  tension: 0.3,
+                  fill: true,
+                  pointRadius: 0,
+                },
               ],
             },
             options: {
@@ -214,7 +245,8 @@ const attachCalculatorHandlers = () => {
                   callbacks: {
                     label(context) {
                       const value = Number(context.parsed.y || 0);
-                      return `잔액: ${value.toLocaleString('ko-KR')}원`;
+                      const label = context.dataset.label || '금액';
+                      return `${label}: ${value.toLocaleString('ko-KR')}원`;
                     },
                   },
                 },
@@ -235,7 +267,7 @@ const attachCalculatorHandlers = () => {
                   },
                   title: {
                     display: true,
-                    text: '잔액(원)',
+                    text: '금액(원)',
                   },
                 },
                 x: {
