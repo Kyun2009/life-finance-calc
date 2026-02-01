@@ -552,24 +552,31 @@ const attachAutoCalc = () => {
   const STORAGE_KEY = 'autoCalc';
   toggle.checked = localStorage.getItem(STORAGE_KEY) === 'true';
 
+  const toast = document.getElementById('toast');
+  let toastTimer;
+  const showAutoToast = (message) => {
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.remove('fail');
+    toast.classList.add('show');
+    window.clearTimeout(toastTimer);
+    toastTimer = window.setTimeout(() => {
+      toast.classList.remove('show');
+    }, 1200);
+  };
+
   toggle.addEventListener('change', () => {
     localStorage.setItem(STORAGE_KEY, toggle.checked ? 'true' : 'false');
   });
 
   document.querySelectorAll('[data-calculator]').forEach((form) => {
     let timer;
-    const status = form.querySelector('[data-auto-status]');
     const trigger = () => {
       if (!toggle.checked) return;
       window.clearTimeout(timer);
-      if (status) {
-        status.textContent = '자동 계산 중...';
-      }
+      showAutoToast('자동 계산 중...');
       timer = window.setTimeout(() => {
         form.dispatchEvent(new Event('submit', { cancelable: true }));
-        if (status) {
-          status.textContent = '';
-        }
       }, 350);
     };
 
