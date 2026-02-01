@@ -483,6 +483,7 @@ img {
 
 .contact-form .btn.primary {
   align-self: center;
+  justify-self: center;
   padding: 12px 20px;
   border: none;
   box-shadow: var(--shadow);
