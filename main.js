@@ -240,6 +240,7 @@ const attachCalculatorHandlers = () => {
     form.addEventListener('submit', (event) => {
       event.preventDefault();
       let hasError = false;
+      let firstInvalid = null;
       form.querySelectorAll('input[name], select[name], textarea[name]').forEach((field) => {
         const error = form.querySelector(`[data-error="${field.name}"]`);
         const isValid = field.checkValidity();
@@ -263,9 +264,16 @@ const attachCalculatorHandlers = () => {
         }
         if (!isValid) {
           hasError = true;
+          if (!firstInvalid) {
+            firstInvalid = field;
+          }
         }
       });
-      if (hasError) return;
+      if (hasError) {
+        firstInvalid?.focus();
+        firstInvalid?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
       const type = form.dataset.calculator;
       const handler = calculators[type];
       if (!handler) return;
