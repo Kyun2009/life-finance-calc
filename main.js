@@ -48,6 +48,111 @@ const calculators = {
     const result = base * (percent / 100);
     return `${base}의 ${percent}%는 ${formatCurrency(result)}입니다.`;
   },
+  exchange(form) {
+    const amount = Number(form.querySelector('[name="amount"]').value);
+    const rate = Number(form.querySelector('[name="rate"]').value);
+    const direction = form.querySelector('[name="direction"]').value;
+    if (rate === 0) {
+      return '환율은 0보다 커야 합니다.';
+    }
+    const result = direction === 'toKrw' ? amount * rate : amount / rate;
+    const suffix = direction === 'toKrw' ? '원' : '외화';
+    return `환산 금액: ${formatCurrency(result)}${suffix}`;
+  },
+  compound(form) {
+    const principal = Number(form.querySelector('[name="principal"]').value);
+    const contribution = Number(form.querySelector('[name="contribution"]').value);
+    const annualRate = Number(form.querySelector('[name="rate"]').value) / 100;
+    const years = Number(form.querySelector('[name="years"]').value);
+    const frequency = Number(form.querySelector('[name="frequency"]').value);
+    const months = years * 12;
+    if (annualRate === 0) {
+      const total = principal + contribution * months;
+      return `예상 자산: ${formatCurrency(total)}원`;
+    }
+    const effectiveMonthlyRate = (1 + annualRate / frequency) ** (frequency / 12) - 1;
+    const growth = (1 + effectiveMonthlyRate) ** months;
+    const futureValue =
+      principal * growth +
+      contribution * ((growth - 1) / effectiveMonthlyRate) * (1 + effectiveMonthlyRate);
+    return `예상 자산: ${formatCurrency(futureValue)}원`;
+  },
+  loanSchedule(form) {
+    const principal = Number(form.querySelector('[name="principal"]').value);
+    const annualRate = Number(form.querySelector('[name="rate"]').value) / 100;
+    const months = Number(form.querySelector('[name="months"]').value);
+    const method = form.querySelector('[name="method"]').value;
+    const monthlyRate = annualRate / 12;
+    const rows = [];
+    let balance = principal;
+    let monthlyPayment = 0;
+
+    if (monthlyRate === 0) {
+      monthlyPayment = principal / months;
+    } else if (method === 'equalPayment') {
+      monthlyPayment =
+        principal *
+        (monthlyRate * (1 + monthlyRate) ** months) /
+        ((1 + monthlyRate) ** months - 1);
+    }
+
+    for (let i = 1; i <= months; i += 1) {
+      let interest = monthlyRate === 0 ? 0 : balance * monthlyRate;
+      let principalPayment;
+      let payment;
+
+      if (method === 'equalPrincipal') {
+        principalPayment = principal / months;
+        payment = principalPayment + interest;
+      } else {
+        payment = monthlyRate === 0 ? monthlyPayment : monthlyPayment;
+        principalPayment = payment - interest;
+      }
+
+      balance = Math.max(0, balance - principalPayment);
+      rows.push({
+        month: i,
+        payment,
+        principal: principalPayment,
+        interest,
+        balance,
+      });
+    }
+
+    const tableHtml = `
+      <table class="schedule-table">
+        <thead>
+          <tr>
+            <th>회차</th>
+            <th>월 상환액</th>
+            <th>원금</th>
+            <th>이자</th>
+            <th>잔액</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows
+            .map(
+              (row) => `
+                <tr>
+                  <td>${row.month}</td>
+                  <td>${formatCurrency(row.payment)}</td>
+                  <td>${formatCurrency(row.principal)}</td>
+                  <td>${formatCurrency(row.interest)}</td>
+                  <td>${formatCurrency(row.balance)}</td>
+                </tr>
+              `
+            )
+            .join('')}
+        </tbody>
+      </table>
+    `;
+
+    return {
+      text: `총 ${months}개월 상환 스케줄이 생성되었습니다.`,
+      tableHtml,
+    };
+  },
 };
 
 const attachCalculatorHandlers = () => {
@@ -58,7 +163,16 @@ const attachCalculatorHandlers = () => {
       const handler = calculators[type];
       if (!handler) return;
       const output = form.querySelector('.result');
-      output.textContent = handler(form);
+      const result = handler(form);
+      if (typeof result === 'string') {
+        output.textContent = result;
+      } else {
+        output.textContent = result.text;
+      }
+      const tableTarget = form.querySelector('[data-schedule-table]');
+      if (tableTarget) {
+        tableTarget.innerHTML = result.tableHtml || '';
+      }
     });
   });
 };
