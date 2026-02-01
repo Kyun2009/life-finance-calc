@@ -179,6 +179,10 @@ img {
   border: none;
 }
 
+.btn.share.done {
+  background: #1f4d3f;
+}
+
 .btn.tag {
   font-size: 0.9rem;
   border-color: transparent;

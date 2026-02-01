@@ -353,6 +353,7 @@ const attachShareHandlers = () => {
         url.hash = targetId;
       }
       const status = button.parentElement.querySelector('[data-share-status]');
+      const originalLabel = button.textContent;
       try {
         await copyText(url.toString());
         if (status) {
@@ -361,6 +362,12 @@ const attachShareHandlers = () => {
             status.textContent = '';
           }, 2000);
         }
+        button.classList.add('done');
+        button.textContent = '복사 완료';
+        window.setTimeout(() => {
+          button.classList.remove('done');
+          button.textContent = originalLabel;
+        }, 2000);
       } catch (error) {
         if (status) {
           status.textContent = '복사에 실패했습니다. 직접 복사해 주세요.';
@@ -368,6 +375,12 @@ const attachShareHandlers = () => {
             status.textContent = '';
           }, 2000);
         }
+        button.classList.add('done');
+        button.textContent = '복사 실패';
+        window.setTimeout(() => {
+          button.classList.remove('done');
+          button.textContent = originalLabel;
+        }, 2000);
       }
     });
   });
