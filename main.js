@@ -328,9 +328,55 @@ const attachCalculatorHandlers = () => {
   });
 };
 
+const attachShareHandlers = () => {
+  const copyText = async (text) => {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+      return;
+    }
+    const tempInput = document.createElement('textarea');
+    tempInput.value = text;
+    tempInput.style.position = 'fixed';
+    tempInput.style.opacity = '0';
+    document.body.appendChild(tempInput);
+    tempInput.focus();
+    tempInput.select();
+    document.execCommand('copy');
+    document.body.removeChild(tempInput);
+  };
+
+  document.querySelectorAll('[data-share]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const targetId = button.dataset.share;
+      const url = new URL(window.location.href);
+      if (targetId) {
+        url.hash = targetId;
+      }
+      const status = button.parentElement.querySelector('[data-share-status]');
+      try {
+        await copyText(url.toString());
+        if (status) {
+          status.textContent = '링크가 복사되었습니다.';
+          window.setTimeout(() => {
+            status.textContent = '';
+          }, 2000);
+        }
+      } catch (error) {
+        if (status) {
+          status.textContent = '복사에 실패했습니다. 직접 복사해 주세요.';
+          window.setTimeout(() => {
+            status.textContent = '';
+          }, 2000);
+        }
+      }
+    });
+  });
+};
+
 const run = () => {
   updateActiveNav();
   attachCalculatorHandlers();
+  attachShareHandlers();
 };
 
 if (document.readyState === 'loading') {

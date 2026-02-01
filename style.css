@@ -173,6 +173,12 @@ img {
   color: #fff;
 }
 
+.btn.share {
+  background: var(--brand);
+  color: #fff;
+  border: none;
+}
+
 .btn.tag {
   font-size: 0.9rem;
   border-color: transparent;
