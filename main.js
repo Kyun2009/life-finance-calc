@@ -390,6 +390,7 @@ const attachResetHandler = () => {
       lastFocused.focus();
       lastFocused = null;
     }
+    document.body.classList.remove('modal-open');
   };
 
   const openModal = () => {
@@ -399,6 +400,7 @@ const attachResetHandler = () => {
     if (focusable.length) {
       focusable[0].focus();
     }
+    document.body.classList.add('modal-open');
   };
 
   const runReset = () => {
