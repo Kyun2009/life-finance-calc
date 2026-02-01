@@ -449,7 +449,7 @@ const attachCalculatorHandlers = () => {
       const cardId = form.closest('.card')?.id;
       const nextUrl = new URL(window.location.href);
       nextUrl.search = params.toString();
-      if (cardId && !nextUrl.hash) {
+      if (event.isTrusted && cardId && !nextUrl.hash) {
         nextUrl.hash = cardId;
       }
       window.history.replaceState({}, '', nextUrl);
