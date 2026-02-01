@@ -498,6 +498,24 @@ img {
   margin-bottom: 24px;
 }
 
+.post-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.post-date {
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.post-summary {
+  line-height: 1.7;
+}
+
 .blog-cta {
   margin-top: 16px;
   display: flex;
