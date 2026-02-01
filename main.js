@@ -32,6 +32,8 @@ const getAmountMultiplier = (amountUnit) => (amountUnit === 'thousand' ? 1000 : 
 
 const getRateMultiplier = (rateUnit) => (rateUnit === 'monthly' ? 12 : 1);
 
+const rateFields = new Set(['rate', 'loanRate', 'savingsRate']);
+
 const readValue = (form, name, amountUnit) => {
   const value = Number(form.querySelector(`[name="${name}"]`).value);
   if (moneyFields.has(name)) {
@@ -639,7 +641,7 @@ const attachUnitToggles = () => {
         document
           .querySelectorAll('[data-calculator] input[name]')
           .forEach((input) => {
-            if (!input.name.toLowerCase().includes('rate')) return;
+            if (!rateFields.has(input.name)) return;
             const value = Number(input.value);
             if (Number.isNaN(value) || input.value === '') return;
             const converted = value * factor;
