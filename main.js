@@ -289,8 +289,10 @@ const attachCalculatorHandlers = () => {
         }
       });
       if (hasError) {
-        firstInvalid?.focus();
-        firstInvalid?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (event.isTrusted) {
+          firstInvalid?.focus();
+          firstInvalid?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
         return;
       }
       const type = form.dataset.calculator;
