@@ -305,11 +305,11 @@ img {
 }
 
 .section.compact {
-  padding-bottom: 24px;
+  padding-bottom: 16px;
 }
 
 .section.tight-top {
-  padding-top: 24px;
+  padding-top: 16px;
 }
 
 .section h2 {
@@ -355,6 +355,11 @@ img {
 .card p {
   color: var(--muted);
   line-height: 1.7;
+  margin: 0 0 10px;
+}
+
+.card p:last-child {
+  margin-bottom: 0;
 }
 
 .badge {
