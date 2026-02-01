@@ -648,7 +648,12 @@ const attachUnitToggles = () => {
             const value = Number(input.value);
             if (Number.isNaN(value) || input.value === '') return;
             const converted = value * factor;
-            input.value = Number.isFinite(converted) ? converted : value;
+            if (!Number.isFinite(converted)) return;
+            if (nextUnit === 'thousand') {
+              input.value = (Math.round(converted * 10) / 10).toString();
+            } else {
+              input.value = Math.round(converted).toString();
+            }
           });
         currentAmountUnit = nextUnit;
       }
