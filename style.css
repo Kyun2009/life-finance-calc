@@ -304,6 +304,14 @@ img {
   padding: 60px 0;
 }
 
+.section.compact {
+  padding-bottom: 24px;
+}
+
+.section.tight-top {
+  padding-top: 24px;
+}
+
 .section h2 {
   font-family: 'DM Serif Display', serif;
   font-size: clamp(1.8rem, 2.6vw, 2.4rem);
