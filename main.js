@@ -712,6 +712,18 @@ const attachInputFormatting = () => {
       if (input.value === '') return;
       input.value = formatNumber(input.value);
     });
+    input.addEventListener('input', () => {
+      const start = input.selectionStart;
+      const end = input.selectionEnd;
+      const raw = input.value.replace(/,/g, '');
+      const formatted = formatNumber(raw);
+      if (formatted) {
+        input.value = formatted;
+        const diff = formatted.length - raw.length;
+        const nextPos = Math.max(0, Math.min(formatted.length, (start ?? formatted.length) + diff));
+        input.setSelectionRange(nextPos, nextPos);
+      }
+    });
   });
 };
 
