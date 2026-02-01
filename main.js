@@ -329,6 +329,19 @@ const attachCalculatorHandlers = () => {
 };
 
 const attachShareHandlers = () => {
+  const toast = document.getElementById('toast');
+  let toastTimer;
+  const showToast = (message, isError = false) => {
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.toggle('fail', isError);
+    toast.classList.add('show');
+    window.clearTimeout(toastTimer);
+    toastTimer = window.setTimeout(() => {
+      toast.classList.remove('show');
+    }, 2000);
+  };
+
   const copyText = async (text) => {
     if (navigator.clipboard && window.isSecureContext) {
       await navigator.clipboard.writeText(text);
@@ -361,6 +374,7 @@ const attachShareHandlers = () => {
             status.textContent = '';
           }, 2000);
         }
+        showToast('링크가 복사되었습니다.');
         button.classList.add('done');
         button.classList.remove('fail');
         window.setTimeout(() => {
@@ -373,6 +387,7 @@ const attachShareHandlers = () => {
             status.textContent = '';
           }, 2000);
         }
+        showToast('복사에 실패했습니다.', true);
         button.classList.add('fail');
         button.classList.remove('done');
         window.setTimeout(() => {
