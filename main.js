@@ -325,7 +325,7 @@ const attachCalculatorHandlers = () => {
         }
       }
 
-      const params = new URLSearchParams();
+      const params = new URLSearchParams(window.location.search);
       form.querySelectorAll('input[name], select[name], textarea[name]').forEach((field) => {
         if (field.value !== '') {
           params.set(`${type}_${field.name}`, field.value);
@@ -334,7 +334,7 @@ const attachCalculatorHandlers = () => {
       const cardId = form.closest('.card')?.id;
       const nextUrl = new URL(window.location.href);
       nextUrl.search = params.toString();
-      if (cardId) {
+      if (cardId && !nextUrl.hash) {
         nextUrl.hash = cardId;
       }
       window.history.replaceState({}, '', nextUrl);
@@ -360,8 +360,7 @@ const restoreCalculatorValues = () => {
       }
     });
 
-    const cardId = form.closest('.card')?.id;
-    if (hasAny && cardId && cardId === hash) {
+    if (hasAny) {
       form.dispatchEvent(new Event('submit', { cancelable: true }));
     }
   });
