@@ -324,7 +324,46 @@ const attachCalculatorHandlers = () => {
           cards[2].textContent = `${formatCurrency(result.totals.interest)}원`;
         }
       }
+
+      const params = new URLSearchParams();
+      form.querySelectorAll('input[name], select[name], textarea[name]').forEach((field) => {
+        if (field.value !== '') {
+          params.set(`${type}_${field.name}`, field.value);
+        }
+      });
+      const cardId = form.closest('.card')?.id;
+      const nextUrl = new URL(window.location.href);
+      nextUrl.search = params.toString();
+      if (cardId) {
+        nextUrl.hash = cardId;
+      }
+      window.history.replaceState({}, '', nextUrl);
     });
+  });
+};
+
+const restoreCalculatorValues = () => {
+  const forms = document.querySelectorAll('[data-calculator]');
+  if (!forms.length) return;
+
+  const params = new URLSearchParams(window.location.search);
+  const hash = window.location.hash.replace('#', '');
+
+  forms.forEach((form) => {
+    const type = form.dataset.calculator;
+    let hasAny = false;
+    form.querySelectorAll('input[name], select[name], textarea[name]').forEach((field) => {
+      const key = `${type}_${field.name}`;
+      if (params.has(key)) {
+        field.value = params.get(key);
+        hasAny = true;
+      }
+    });
+
+    const cardId = form.closest('.card')?.id;
+    if (hasAny && cardId && cardId === hash) {
+      form.dispatchEvent(new Event('submit', { cancelable: true }));
+    }
   });
 };
 
@@ -407,6 +446,7 @@ const run = () => {
   updateActiveNav();
   attachCalculatorHandlers();
   attachShareHandlers();
+  restoreCalculatorValues();
 };
 
 if (document.readyState === 'loading') {
