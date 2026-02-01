@@ -72,12 +72,15 @@
               <label>원금 (원)
                 <input name="principal" type="number" min="0" required />
               </label>
+              <p class="validation" data-error="principal"></p>
               <label>연 이자율 (%)
                 <input name="rate" type="number" min="0" step="0.01" required />
               </label>
+              <p class="validation" data-error="rate"></p>
               <label>기간 (개월)
                 <input name="months" type="number" min="1" required />
               </label>
+              <p class="validation" data-error="months"></p>
               <p class="hint">예: 원금 1,000,000원, 연 3.5%, 12개월</p>
               <button type="submit">계산하기</button>
               <div class="result">예상 이자가 표시됩니다.</div>
@@ -92,12 +95,15 @@
               <label>대출 원금 (원)
                 <input name="loanPrincipal" type="number" min="0" required />
               </label>
+              <p class="validation" data-error="loanPrincipal"></p>
               <label>연 이자율 (%)
                 <input name="loanRate" type="number" min="0" step="0.01" required />
               </label>
+              <p class="validation" data-error="loanRate"></p>
               <label>상환 기간 (개월)
                 <input name="loanMonths" type="number" min="1" required />
               </label>
+              <p class="validation" data-error="loanMonths"></p>
               <p class="hint">예: 20,000,000원, 연 5%, 36개월</p>
               <button type="submit">계산하기</button>
               <div class="result">월 상환액이 표시됩니다.</div>
@@ -112,12 +118,15 @@
               <label>월 납입액 (원)
                 <input name="monthly" type="number" min="0" required />
               </label>
+              <p class="validation" data-error="monthly"></p>
               <label>연 이자율 (%)
                 <input name="savingsRate" type="number" min="0" step="0.01" required />
               </label>
+              <p class="validation" data-error="savingsRate"></p>
               <label>기간 (개월)
                 <input name="savingsMonths" type="number" min="1" required />
               </label>
+              <p class="validation" data-error="savingsMonths"></p>
               <p class="hint">예: 매월 200,000원, 연 4%, 24개월</p>
               <button type="submit">계산하기</button>
               <div class="result">예상 만기 금액이 표시됩니다.</div>
@@ -132,9 +141,11 @@
               <label>기준 값
                 <input name="base" type="number" min="0" required />
               </label>
+              <p class="validation" data-error="base"></p>
               <label>퍼센트 (%)
                 <input name="percent" type="number" min="0" step="0.01" required />
               </label>
+              <p class="validation" data-error="percent"></p>
               <p class="hint">예: 기준값 250, 퍼센트 15</p>
               <button type="submit">계산하기</button>
               <div class="result">계산 결과가 표시됩니다.</div>
@@ -149,9 +160,11 @@
               <label>금액
                 <input name="amount" type="number" min="0" required />
               </label>
+              <p class="validation" data-error="amount"></p>
               <label>환율 (1단위 기준)
                 <input name="rate" type="number" min="0" step="0.0001" required />
               </label>
+              <p class="validation" data-error="rate"></p>
               <p class="hint">예: 1달러 = 1,350원이라면 환율에 1350을 입력하세요.</p>
               <label>변환 방향
                 <select name="direction" required>
@@ -159,6 +172,7 @@
                   <option value="fromKrw">원화 → 외화</option>
                 </select>
               </label>
+              <p class="validation" data-error="direction"></p>
               <button type="submit">계산하기</button>
               <div class="result">환율 계산 결과가 표시됩니다.</div>
               <button type="button" class="btn share" data-share="exchange">결과 링크 복사</button>
@@ -172,15 +186,19 @@
               <label>초기 투자금 (원)
                 <input name="principal" type="number" min="0" required />
               </label>
+              <p class="validation" data-error="principal"></p>
               <label>월 추가 납입 (원)
                 <input name="contribution" type="number" min="0" required />
               </label>
+              <p class="validation" data-error="contribution"></p>
               <label>연 수익률 (%)
                 <input name="rate" type="number" min="0" step="0.01" required />
               </label>
+              <p class="validation" data-error="rate"></p>
               <label>투자 기간 (년)
                 <input name="years" type="number" min="1" required />
               </label>
+              <p class="validation" data-error="years"></p>
               <label>복리 주기
                 <select name="frequency" required>
                   <option value="12">매월</option>
@@ -189,6 +207,7 @@
                   <option value="1">매년</option>
                 </select>
               </label>
+              <p class="validation" data-error="frequency"></p>
               <p class="hint">예: 1,000,000원 + 월 100,000원, 연 6%, 5년</p>
               <button type="submit">계산하기</button>
               <div class="result">복리 계산 결과가 표시됩니다.</div>
@@ -206,18 +225,22 @@
             <label>대출 원금 (원)
               <input name="principal" type="number" min="0" required />
             </label>
+            <p class="validation" data-error="principal"></p>
             <label>연 이자율 (%)
               <input name="rate" type="number" min="0" step="0.01" required />
             </label>
+            <p class="validation" data-error="rate"></p>
             <label>상환 기간 (개월)
               <input name="months" type="number" min="1" required />
             </label>
+            <p class="validation" data-error="months"></p>
             <label>상환 방식
               <select name="method" required>
                 <option value="equalPayment">원리금균등</option>
                 <option value="equalPrincipal">원금균등</option>
               </select>
             </label>
+            <p class="validation" data-error="method"></p>
             <p class="hint">예: 30,000,000원, 연 4.2%, 60개월</p>
             <button type="submit">스케줄 생성</button>
             <div class="result">상환 스케줄이 아래에 표시됩니다.</div>

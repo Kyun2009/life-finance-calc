@@ -382,6 +382,19 @@ img {
   font-size: 1rem;
 }
 
+.calculator input.invalid,
+.calculator select.invalid,
+.calculator textarea.invalid {
+  border-color: #aa3b38;
+  box-shadow: 0 0 0 2px rgba(170, 59, 56, 0.15);
+}
+
+.validation {
+  font-size: 0.85rem;
+  color: #aa3b38;
+  min-height: 18px;
+}
+
 .calculator button {
   justify-content: center;
   width: 100%;

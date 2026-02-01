@@ -220,6 +220,19 @@ const attachCalculatorHandlers = () => {
   document.querySelectorAll('[data-calculator]').forEach((form) => {
     form.addEventListener('submit', (event) => {
       event.preventDefault();
+      let hasError = false;
+      form.querySelectorAll('input[name], select[name], textarea[name]').forEach((field) => {
+        const error = form.querySelector(`[data-error="${field.name}"]`);
+        const isValid = field.checkValidity();
+        field.classList.toggle('invalid', !isValid);
+        if (error) {
+          error.textContent = isValid ? '' : '필수 값을 올바르게 입력해 주세요.';
+        }
+        if (!isValid) {
+          hasError = true;
+        }
+      });
+      if (hasError) return;
       const type = form.dataset.calculator;
       const handler = calculators[type];
       if (!handler) return;
