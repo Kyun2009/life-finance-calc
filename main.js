@@ -640,10 +640,14 @@ const attachUnitToggles = () => {
   const amountSelect = document.querySelector('[data-amount-unit]');
   let currentAmountUnit = localStorage.getItem('amountUnit') || 'krw';
   let currentRateUnit = localStorage.getItem('rateUnit') || 'annual';
-  const forms = Array.from(document.querySelectorAll('[data-calculator]'));
   const recalcAll = () => {
-    forms.forEach((form) => {
-      form.dispatchEvent(new Event('submit', { cancelable: true }));
+    document.querySelectorAll('[data-calculator]').forEach((form) => {
+      const hasValue = Array.from(
+        form.querySelectorAll('input[name], select[name], textarea[name]')
+      ).some((field) => field.value !== '');
+      if (hasValue) {
+        form.dispatchEvent(new Event('submit', { cancelable: true }));
+      }
     });
   };
   if (rateSelect) {
