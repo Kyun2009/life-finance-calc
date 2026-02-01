@@ -121,17 +121,8 @@ const calculators = {
 
     const chartData = rows.map((row) => row.balance);
     const chartLabels = rows.map((row) => `${row.month}회차`);
-    let cumulativePrincipal = 0;
-    let cumulativeInterest = 0;
-    const cumulativePrincipalData = [];
-    const cumulativeInterestData = [];
-
-    rows.forEach((row) => {
-      cumulativePrincipal += row.principal;
-      cumulativeInterest += row.interest;
-      cumulativePrincipalData.push(cumulativePrincipal);
-      cumulativeInterestData.push(cumulativeInterest);
-    });
+    const monthlyPrincipalData = rows.map((row) => row.principal);
+    const monthlyInterestData = rows.map((row) => row.interest);
 
     const tableHtml = `
       <table class="schedule-table">
@@ -168,8 +159,8 @@ const calculators = {
       chart: {
         labels: chartLabels,
         data: chartData,
-        cumulativePrincipal: cumulativePrincipalData,
-        cumulativeInterest: cumulativeInterestData,
+        monthlyPrincipal: monthlyPrincipalData,
+        monthlyInterest: monthlyInterestData,
       },
     };
   },
@@ -210,14 +201,14 @@ const attachCalculatorHandlers = () => {
                   borderColor: '#2a6f5a',
                   backgroundColor: 'rgba(42, 111, 90, 0.12)',
                   tension: 0.3,
-                  fill: true,
+                  fill: false,
                   pointRadius: 2,
                   pointHoverRadius: 4,
                   stack: 'balance',
                 },
                 {
-                  label: '누적 원금',
-                  data: result.chart.cumulativePrincipal,
+                  label: '월 원금',
+                  data: result.chart.monthlyPrincipal,
                   borderColor: '#e3b04b',
                   backgroundColor: 'rgba(227, 176, 75, 0.18)',
                   tension: 0.3,
@@ -226,8 +217,8 @@ const attachCalculatorHandlers = () => {
                   stack: 'paid',
                 },
                 {
-                  label: '누적 이자',
-                  data: result.chart.cumulativeInterest,
+                  label: '월 이자',
+                  data: result.chart.monthlyInterest,
                   borderColor: '#8b5e3b',
                   backgroundColor: 'rgba(139, 94, 59, 0.14)',
                   tension: 0.3,
