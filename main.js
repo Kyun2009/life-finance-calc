@@ -629,10 +629,26 @@ const attachUnitToggles = () => {
   const rateSelect = document.querySelector('[data-rate-unit]');
   const amountSelect = document.querySelector('[data-amount-unit]');
   let currentAmountUnit = localStorage.getItem('amountUnit') || 'krw';
+  let currentRateUnit = localStorage.getItem('rateUnit') || 'annual';
   if (rateSelect) {
-    rateSelect.value = localStorage.getItem('rateUnit') || 'annual';
+    rateSelect.value = currentRateUnit;
     rateSelect.addEventListener('change', () => {
-      localStorage.setItem('rateUnit', rateSelect.value);
+      const nextUnit = rateSelect.value;
+      if (nextUnit !== currentRateUnit) {
+        const factor = nextUnit === 'monthly' ? 1 / 12 : 12;
+        document
+          .querySelectorAll('[data-calculator] input[name]')
+          .forEach((input) => {
+            if (!input.name.toLowerCase().includes('rate')) return;
+            const value = Number(input.value);
+            if (Number.isNaN(value) || input.value === '') return;
+            const converted = value * factor;
+            if (!Number.isFinite(converted)) return;
+            input.value = (Math.round(converted * 100) / 100).toString();
+          });
+        currentRateUnit = nextUnit;
+      }
+      localStorage.setItem('rateUnit', nextUnit);
     });
   }
   if (amountSelect) {
