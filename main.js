@@ -558,11 +558,18 @@ const attachAutoCalc = () => {
 
   document.querySelectorAll('[data-calculator]').forEach((form) => {
     let timer;
+    const status = form.querySelector('[data-auto-status]');
     const trigger = () => {
       if (!toggle.checked) return;
       window.clearTimeout(timer);
+      if (status) {
+        status.textContent = '자동 계산 중...';
+      }
       timer = window.setTimeout(() => {
         form.dispatchEvent(new Event('submit', { cancelable: true }));
+        if (status) {
+          status.textContent = '';
+        }
       }, 350);
     };
 
