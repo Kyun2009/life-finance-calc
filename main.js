@@ -213,6 +213,7 @@ const attachCalculatorHandlers = () => {
                   fill: true,
                   pointRadius: 2,
                   pointHoverRadius: 4,
+                  stack: 'balance',
                 },
                 {
                   label: '누적 원금',
@@ -222,6 +223,7 @@ const attachCalculatorHandlers = () => {
                   tension: 0.3,
                   fill: true,
                   pointRadius: 0,
+                  stack: 'paid',
                 },
                 {
                   label: '누적 이자',
@@ -231,6 +233,7 @@ const attachCalculatorHandlers = () => {
                   tension: 0.3,
                   fill: true,
                   pointRadius: 0,
+                  stack: 'paid',
                 },
               ],
             },
@@ -253,6 +256,7 @@ const attachCalculatorHandlers = () => {
               },
               scales: {
                 y: {
+                  stacked: true,
                   ticks: {
                     callback(value) {
                       const numeric = Number(value);
@@ -271,6 +275,7 @@ const attachCalculatorHandlers = () => {
                   },
                 },
                 x: {
+                  stacked: true,
                   title: {
                     display: true,
                     text: '회차',
