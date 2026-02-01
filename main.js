@@ -752,7 +752,7 @@ const attachUnitToggles = () => {
   const recalcAll = () => {
     document.querySelectorAll('[data-calculator]').forEach((form) => {
       const hasValue = Array.from(
-        form.querySelectorAll('input[name], select[name], textarea[name]')
+        form.querySelectorAll('input[name], textarea[name]')
       ).some((field) => field.value !== '');
       if (hasValue) {
         form.dispatchEvent(new Event('submit', { cancelable: true }));
