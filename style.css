@@ -206,6 +206,22 @@ img {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
+.grid[data-schedule-summary] {
+  margin-top: 16px;
+}
+
+.grid[data-schedule-summary] .card {
+  box-shadow: none;
+  background: rgba(22, 50, 79, 0.05);
+}
+
+.grid[data-schedule-summary] .result {
+  margin: 0;
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+
 .card {
   background: var(--card);
   border: 1px solid var(--border);

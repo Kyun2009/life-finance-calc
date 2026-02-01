@@ -119,6 +119,15 @@ const calculators = {
       });
     }
 
+    const totals = rows.reduce(
+      (acc, row) => ({
+        payment: acc.payment + row.payment,
+        principal: acc.principal + row.principal,
+        interest: acc.interest + row.interest,
+      }),
+      { payment: 0, principal: 0, interest: 0 }
+    );
+
     const chartData = rows.map((row) => row.balance);
     const chartLabels = rows.map((row) => `${row.month}회차`);
     const monthlyPrincipalData = rows.map((row) => row.principal);
@@ -156,6 +165,7 @@ const calculators = {
     return {
       text: `총 ${months}개월 상환 스케줄이 생성되었습니다.`,
       tableHtml,
+      totals,
       chart: {
         labels: chartLabels,
         data: chartData,
@@ -302,6 +312,16 @@ const attachCalculatorHandlers = () => {
           });
         } else {
           chartTarget.parentElement.innerHTML = '<p class="hint">그래프를 표시하려면 Chart.js가 필요합니다.</p>';
+        }
+      }
+
+      const summaryGrid = form.querySelector('[data-schedule-summary]');
+      if (summaryGrid && result.totals) {
+        const cards = summaryGrid.querySelectorAll('.result');
+        if (cards.length >= 3) {
+          cards[0].textContent = `${formatCurrency(result.totals.payment)}원`;
+          cards[1].textContent = `${formatCurrency(result.totals.principal)}원`;
+          cards[2].textContent = `${formatCurrency(result.totals.interest)}원`;
         }
       }
     });
