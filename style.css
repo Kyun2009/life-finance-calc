@@ -159,6 +159,10 @@ img {
   gap: 12px;
 }
 
+.hero-actions + .hero-actions {
+  margin-top: 18px;
+}
+
 .toggle {
   display: inline-flex;
   align-items: center;
