@@ -366,6 +366,40 @@ const restoreCalculatorValues = () => {
   });
 };
 
+const attachResetHandler = () => {
+  const resetButton = document.querySelector('[data-reset-params]');
+  if (!resetButton) return;
+
+  resetButton.addEventListener('click', () => {
+    const url = new URL(window.location.href);
+    url.search = '';
+    window.history.replaceState({}, '', url);
+
+    document.querySelectorAll('[data-calculator]').forEach((form) => {
+      form.reset();
+      const result = form.querySelector('.result');
+      if (result) {
+        result.textContent = '결과가 초기화되었습니다.';
+      }
+      const summaryGrid = form.querySelector('[data-schedule-summary]');
+      if (summaryGrid) {
+        summaryGrid.querySelectorAll('.result').forEach((item) => {
+          item.textContent = '-';
+        });
+      }
+      const tableTarget = form.querySelector('[data-schedule-table]');
+      if (tableTarget) {
+        tableTarget.innerHTML = '';
+      }
+      const chartTarget = form.querySelector('[data-schedule-chart]');
+      if (chartTarget && chartTarget._chartInstance) {
+        chartTarget._chartInstance.destroy();
+        chartTarget._chartInstance = null;
+      }
+    });
+  });
+};
+
 const attachShareHandlers = () => {
   const toast = document.getElementById('toast');
   let toastTimer;
@@ -446,6 +480,7 @@ const run = () => {
   attachCalculatorHandlers();
   attachShareHandlers();
   restoreCalculatorValues();
+  attachResetHandler();
 };
 
 if (document.readyState === 'loading') {
