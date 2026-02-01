@@ -173,6 +173,29 @@ img {
   color: #fff;
 }
 
+.btn.tag {
+  font-size: 0.9rem;
+  border-color: transparent;
+  background: rgba(22, 50, 79, 0.08);
+  color: var(--accent);
+}
+
+.btn.tag::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.btn.tag.interest { color: #2a6f5a; }
+.btn.tag.loan { color: #16324f; }
+.btn.tag.savings { color: #c76e21; }
+.btn.tag.percent { color: #8b5e3b; }
+.btn.tag.exchange { color: #0f7a9e; }
+.btn.tag.compound { color: #6b4d9b; }
+.btn.tag.schedule { color: #aa3b38; }
+
 .btn:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow);
