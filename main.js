@@ -13,6 +13,8 @@ const updateActiveNav = () => {
   });
 };
 
+const parseNumber = (value) => Number(String(value).replace(/,/g, ''));
+
 const getUnitSettings = () => {
   const rateUnit = localStorage.getItem('rateUnit') || 'annual';
   const amountUnit = localStorage.getItem('amountUnit') || 'krw';
@@ -35,7 +37,7 @@ const getRateMultiplier = (rateUnit) => (rateUnit === 'monthly' ? 12 : 1);
 const rateFields = new Set(['rate', 'loanRate', 'savingsRate']);
 
 const readValue = (form, name, amountUnit) => {
-  const value = Number(form.querySelector(`[name="${name}"]`).value);
+  const value = parseNumber(form.querySelector(`[name="${name}"]`).value);
   if (moneyFields.has(name)) {
     return value * getAmountMultiplier(amountUnit);
   }
@@ -46,8 +48,8 @@ const calculators = {
   interest(form) {
     const { rateUnit, amountUnit } = getUnitSettings();
     const principal = readValue(form, 'principal', amountUnit);
-    const rate = (Number(form.querySelector('[name="rate"]').value) * getRateMultiplier(rateUnit)) / 100;
-    const months = Number(form.querySelector('[name="months"]').value);
+    const rate = (parseNumber(form.querySelector('[name="rate"]').value) * getRateMultiplier(rateUnit)) / 100;
+    const months = parseNumber(form.querySelector('[name="months"]').value);
     const interest = principal * rate * (months / 12);
     const total = principal + interest;
     return `예상 이자: ${formatCurrency(interest)}원 · 만기 금액: ${formatCurrency(total)}원`;
@@ -56,8 +58,8 @@ const calculators = {
     const { rateUnit, amountUnit } = getUnitSettings();
     const principal = readValue(form, 'loanPrincipal', amountUnit);
     const rate =
-      (Number(form.querySelector('[name="loanRate"]').value) * getRateMultiplier(rateUnit)) / 100 / 12;
-    const months = Number(form.querySelector('[name="loanMonths"]').value);
+      (parseNumber(form.querySelector('[name="loanRate"]').value) * getRateMultiplier(rateUnit)) / 100 / 12;
+    const months = parseNumber(form.querySelector('[name="loanMonths"]').value);
     if (rate === 0) {
       return `월 상환액: ${formatCurrency(principal / months)}원`;
     }
@@ -68,8 +70,8 @@ const calculators = {
     const { rateUnit, amountUnit } = getUnitSettings();
     const monthly = readValue(form, 'monthly', amountUnit);
     const rate =
-      (Number(form.querySelector('[name="savingsRate"]').value) * getRateMultiplier(rateUnit)) / 100 / 12;
-    const months = Number(form.querySelector('[name="savingsMonths"]').value);
+      (parseNumber(form.querySelector('[name="savingsRate"]').value) * getRateMultiplier(rateUnit)) / 100 / 12;
+    const months = parseNumber(form.querySelector('[name="savingsMonths"]').value);
     if (rate === 0) {
       return `예상 만기 금액: ${formatCurrency(monthly * months)}원`;
     }
@@ -79,14 +81,14 @@ const calculators = {
   percent(form) {
     const { amountUnit } = getUnitSettings();
     const base = readValue(form, 'base', amountUnit);
-    const percent = Number(form.querySelector('[name="percent"]').value);
+    const percent = parseNumber(form.querySelector('[name="percent"]').value);
     const result = base * (percent / 100);
     return `${base}의 ${percent}%는 ${formatCurrency(result)}입니다.`;
   },
   exchange(form) {
     const { amountUnit } = getUnitSettings();
     const amount = readValue(form, 'amount', amountUnit);
-    const rate = Number(form.querySelector('[name="rate"]').value);
+    const rate = parseNumber(form.querySelector('[name="rate"]').value);
     const direction = form.querySelector('[name="direction"]').value;
     if (rate === 0) {
       return '환율은 0보다 커야 합니다.';
@@ -99,9 +101,9 @@ const calculators = {
     const { rateUnit, amountUnit } = getUnitSettings();
     const principal = readValue(form, 'principal', amountUnit);
     const contribution = readValue(form, 'contribution', amountUnit);
-    const annualRate = (Number(form.querySelector('[name="rate"]').value) * getRateMultiplier(rateUnit)) / 100;
-    const years = Number(form.querySelector('[name="years"]').value);
-    const frequency = Number(form.querySelector('[name="frequency"]').value);
+    const annualRate = (parseNumber(form.querySelector('[name="rate"]').value) * getRateMultiplier(rateUnit)) / 100;
+    const years = parseNumber(form.querySelector('[name="years"]').value);
+    const frequency = parseNumber(form.querySelector('[name="frequency"]').value);
     const months = years * 12;
     if (annualRate === 0) {
       const total = principal + contribution * months;
@@ -117,8 +119,8 @@ const calculators = {
   loanSchedule(form) {
     const { rateUnit, amountUnit } = getUnitSettings();
     const principal = readValue(form, 'principal', amountUnit);
-    const annualRate = (Number(form.querySelector('[name="rate"]').value) * getRateMultiplier(rateUnit)) / 100;
-    const months = Number(form.querySelector('[name="months"]').value);
+    const annualRate = (parseNumber(form.querySelector('[name="rate"]').value) * getRateMultiplier(rateUnit)) / 100;
+    const months = parseNumber(form.querySelector('[name="months"]').value);
     const method = form.querySelector('[name="method"]').value;
     const monthlyRate = annualRate / 12;
     const rows = [];
@@ -689,6 +691,25 @@ const attachAutoCalc = () => {
   });
 };
 
+const attachInputFormatting = () => {
+  const formatNumber = (value) => {
+    const numeric = parseNumber(value);
+    if (!Number.isFinite(numeric)) return '';
+    return numeric.toLocaleString('ko-KR');
+  };
+
+  document.querySelectorAll('[data-calculator] input[name]').forEach((input) => {
+    if (!moneyFields.has(input.name)) return;
+    input.addEventListener('focus', () => {
+      input.value = String(input.value).replace(/,/g, '');
+    });
+    input.addEventListener('blur', () => {
+      if (input.value === '') return;
+      input.value = formatNumber(input.value);
+    });
+  });
+};
+
 const attachUnitToggles = () => {
   const rateSelect = document.querySelector('[data-rate-unit]');
   const amountSelect = document.querySelector('[data-amount-unit]');
@@ -714,7 +735,7 @@ const attachUnitToggles = () => {
           .querySelectorAll('[data-calculator] input[name]')
           .forEach((input) => {
             if (!rateFields.has(input.name)) return;
-            const value = Number(input.value);
+            const value = parseNumber(input.value);
             if (Number.isNaN(value) || input.value === '') return;
             const converted = value * factor;
             if (!Number.isFinite(converted)) return;
@@ -736,7 +757,7 @@ const attachUnitToggles = () => {
           .querySelectorAll('[data-calculator] input[name]')
           .forEach((input) => {
             if (!moneyFields.has(input.name)) return;
-            const value = Number(input.value);
+            const value = parseNumber(input.value);
             if (Number.isNaN(value) || input.value === '') return;
             const converted = value * factor;
             if (!Number.isFinite(converted)) return;
@@ -761,6 +782,7 @@ const run = () => {
   restoreCalculatorValues();
   attachResetHandler();
   attachAutoCalc();
+  attachInputFormatting();
   attachUnitToggles();
 };
 
