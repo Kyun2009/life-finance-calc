@@ -202,7 +202,7 @@ img {
 
 .btn.tag:hover {
   color: #fff;
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.03);
 }
 
 .btn.tag:hover::after {
