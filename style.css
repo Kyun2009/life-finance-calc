@@ -285,6 +285,7 @@ img {
   overflow-x: auto;
   border-radius: 12px;
   border: 1px solid var(--border);
+  background: #fffdf8;
 }
 
 .schedule-table {

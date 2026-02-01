@@ -119,6 +119,9 @@ const calculators = {
       });
     }
 
+    const chartData = rows.map((row) => row.balance);
+    const chartLabels = rows.map((row) => `${row.month}회차`);
+
     const tableHtml = `
       <table class="schedule-table">
         <thead>
@@ -151,6 +154,10 @@ const calculators = {
     return {
       text: `총 ${months}개월 상환 스케줄이 생성되었습니다.`,
       tableHtml,
+      chart: {
+        labels: chartLabels,
+        data: chartData,
+      },
     };
   },
 };
@@ -172,6 +179,50 @@ const attachCalculatorHandlers = () => {
       const tableTarget = form.querySelector('[data-schedule-table]');
       if (tableTarget) {
         tableTarget.innerHTML = result.tableHtml || '';
+      }
+      const chartTarget = form.querySelector('[data-schedule-chart]');
+      if (chartTarget && result.chart) {
+        if (chartTarget._chartInstance) {
+          chartTarget._chartInstance.destroy();
+        }
+        if (window.Chart) {
+          chartTarget._chartInstance = new window.Chart(chartTarget, {
+            type: 'line',
+            data: {
+              labels: result.chart.labels,
+              datasets: [
+                {
+                  label: '잔액 추이',
+                  data: result.chart.data,
+                  borderColor: '#16324f',
+                  backgroundColor: 'rgba(22, 50, 79, 0.1)',
+                  tension: 0.3,
+                  fill: true,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  display: true,
+                },
+              },
+              scales: {
+                y: {
+                  ticks: {
+                    callback(value) {
+                      return Number(value).toLocaleString('ko-KR');
+                    },
+                  },
+                },
+              },
+            },
+          });
+        } else {
+          chartTarget.parentElement.innerHTML = '<p class="hint">그래프를 표시하려면 Chart.js가 필요합니다.</p>';
+        }
       }
     });
   });
