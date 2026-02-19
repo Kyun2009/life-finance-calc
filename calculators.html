@@ -90,6 +90,12 @@
               <button type="button" class="btn share" data-share="interest">결과 링크 복사</button>
               <p class="hint" data-share-status></p>
             </form>
+            <div class="calc-guide">
+              <h4>계산 기준</h4>
+              <p>단리 기준으로 계산합니다. 공식: <span class="mono">이자 = 원금 × 연이자율 × (개월/12)</span></p>
+              <p class="hint">예시: 1,000,000원, 연 3.5%, 12개월 → 이자 약 35,000원</p>
+              <p class="hint">세전 기준이며 세금·우대금리·수수료는 반영하지 않습니다.</p>
+            </div>
           </div>
 
           <div class="card" id="loan">
@@ -113,6 +119,12 @@
               <button type="button" class="btn share" data-share="loan">결과 링크 복사</button>
               <p class="hint" data-share-status></p>
             </form>
+            <div class="calc-guide">
+              <h4>계산 기준</h4>
+              <p>원리금균등 상환 공식으로 월 상환액을 계산합니다.</p>
+              <p class="hint">예시: 20,000,000원, 연 5%, 36개월 → 월 상환액 약 599,000원</p>
+              <p class="hint">중도상환수수료·보증료 등은 반영하지 않습니다.</p>
+            </div>
           </div>
 
           <div class="card" id="savings">
@@ -136,6 +148,12 @@
               <button type="button" class="btn share" data-share="savings">결과 링크 복사</button>
               <p class="hint" data-share-status></p>
             </form>
+            <div class="calc-guide">
+              <h4>계산 기준</h4>
+              <p>매월 납입이 월초에 이루어진다고 가정한 적금 만기 계산식(적립식 연금식)을 사용합니다.</p>
+              <p class="hint">예시: 매월 200,000원, 연 4%, 24개월 → 만기 약 5,005,000원</p>
+              <p class="hint">세전 기준이며 은행별 우대금리·세율은 반영하지 않습니다.</p>
+            </div>
           </div>
 
           <div class="card" id="percent">
@@ -155,6 +173,11 @@
               <button type="button" class="btn share" data-share="percent">결과 링크 복사</button>
               <p class="hint" data-share-status></p>
             </form>
+            <div class="calc-guide">
+              <h4>계산 기준</h4>
+              <p>공식: <span class="mono">결과 = 기준값 × (퍼센트/100)</span></p>
+              <p class="hint">예시: 250의 15% → 37.5</p>
+            </div>
           </div>
 
           <div class="card" id="exchange">
@@ -181,6 +204,12 @@
               <button type="button" class="btn share" data-share="exchange">결과 링크 복사</button>
               <p class="hint" data-share-status></p>
             </form>
+            <div class="calc-guide">
+              <h4>계산 기준</h4>
+              <p>외화 → 원화는 곱셈, 원화 → 외화는 나눗셈으로 계산합니다.</p>
+              <p class="hint">예시: 100달러 × 1,350원 = 135,000원</p>
+              <p class="hint">수수료/스프레드는 반영하지 않습니다.</p>
+            </div>
           </div>
 
           <div class="card" id="compound">
@@ -217,6 +246,12 @@
               <button type="button" class="btn share" data-share="compound">결과 링크 복사</button>
               <p class="hint" data-share-status></p>
             </form>
+            <div class="calc-guide">
+              <h4>계산 기준</h4>
+              <p>복리 주기에 따른 유효 월 수익률을 구한 뒤, 매월 적립식 투자로 계산합니다.</p>
+              <p class="hint">예시: 1,000,000원 + 월 100,000원, 연 6%, 5년 → 자산 약 8,360,000원</p>
+              <p class="hint">세전 기준이며 실제 수익률은 시장 변동에 따라 달라질 수 있습니다.</p>
+            </div>
           </div>
         </div>
       </section>
@@ -269,12 +304,24 @@
               <canvas data-schedule-chart height="220"></canvas>
             </div>
           </form>
+          <div class="calc-guide">
+            <h4>계산 기준</h4>
+            <p>원리금균등/원금균등 방식으로 월별 원금·이자 상환액을 계산해 표와 그래프로 제공합니다.</p>
+            <p class="hint">금리 변동, 세금, 중도상환수수료 등은 반영하지 않은 예상치입니다.</p>
+          </div>
         </div>
       </section>
     </main>
 
     <footer class="footer">
       <div class="container footer-inner">
+        <div class="footer-links">
+          <a href="/about.html">About</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/editorial.html">편집 정책</a>
+          <a href="/disclaimer.html">면책</a>
+          <a href="/contact.html">Contact</a>
+        </div>
         <span>© 2026 Life Finance Calc. All rights reserved.</span>
       </div>
     </footer>

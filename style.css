@@ -588,6 +588,29 @@ img {
   line-height: 1.8;
 }
 
+.calc-guide {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: rgba(22, 50, 79, 0.08);
+  color: var(--muted);
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+.calc-guide h4 {
+  margin: 0 0 8px;
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.mono {
+  font-family: "JetBrains Mono", "Fira Code", "SFMono-Regular", ui-monospace, monospace;
+  background: rgba(22, 50, 79, 0.12);
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
 .footer {
   padding: 40px 0 60px;
   border-top: 1px solid var(--border);
@@ -600,6 +623,23 @@ img {
   flex-wrap: wrap;
   gap: 14px;
   justify-content: space-between;
+}
+
+.footer-links {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-weight: 600;
+}
+
+.footer-links a {
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+  color: var(--brand);
 }
 
 .toast {

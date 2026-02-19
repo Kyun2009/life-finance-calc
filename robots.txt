@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://Kyun2009.github.io/life-finance-calc/sitemap.xml
+Sitemap: https://life-finance-calc.pages.dev/sitemap.xml
